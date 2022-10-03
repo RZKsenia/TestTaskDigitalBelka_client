@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Данные о концентрации веществ</title>
+</head>
+<body>
+
+<div>
+    <table>
+        <tr><td><h3>Добро пожаложать, {{user_name}}!</h3></td><td><a href="{{login_page}}">Выйти</a></td></tr>
+        <tr><td><h4>Содержание веществ в концентрате</h4></td></tr>
+    </table>
+    <br>
+    <div class="box">
+        {% for table in tables %}
+            {{ table|safe }}
+        {% endfor %}
+    </div><br>
+        <form method="POST">
+            <table>
+                <tbody>
+                    <tr><td>Наименование концентрата:</td><td>{{form.field_concentrat_title}}</td><td>Месяц:{{form.field_month}}</td></tr>
+                    <tr><td>Железо:</td><td>{{form.field_ferum}}</td><td>{{form.btn_save}}</td></tr>
+                    <tr><td>Кремний:</td><td>{{form.field_cremnium}}</td><td></td></tr>
+                    <tr><td>Алюминий:</td><td>{{form.field_aluminium}}</td><td>{{form.btn_show_statistic}}</td></tr>
+                    <tr><td>Кальций:</td><td>{{form.field_calcium}}</td></tr>
+                    <tr><td>Сера:</td><td>{{form.field_sera}}</td></tr>
+                </tbody>
+            </table><br>
+            <div>{{form.btn_clipboard}}</div><br>
+        </form>
+
+        </div>
+        <style  type="text/css">
+            .box {
+                position: relative;
+                width: 700px;
+                height: 300px;
+                overflow: auto;
+            }
+        </style>
+        </body>
+        </html>

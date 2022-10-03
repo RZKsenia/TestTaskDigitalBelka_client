@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Статистические данные о концентрации веществ</title>
+</head>
+<body>
+<div>
+<h3>Статистические данные за {{month}} месяц</h3>
+
+    <div class="box">
+    {% for table in tables %}
+            {{ table|safe }}
+        {% endfor %}
+    </div><br>
+<a href="{{back_page}}">Назад</a>
+</div>
+<style  type="text/css">
+            .box {
+                position: relative;
+                width: 700px;
+                height: 400px;
+                overflow: auto;
+            }
+        </style>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Вход в систему - анализ железорудного концентрата</title>
+</head>
+<body>
+    <h2>Качественные показатели железорудного концентрата</h2>
+    <div></div>
+    <h3>Войдите, чтобы продолжить</h3>
+    <div>
+        <form method="POST">
+            <table>
+                <tbody>
+                    <tr><td>Имя пользователя:</td><td>{{form.user_name_field}}</td></tr>
+                    <tr><td>Пароль:</td><td>{{form.user_password_field}}</td></tr>
+                </tbody>
+            </table>
+                <div>{{form.submit_btn}}</div>
+        </form>
+    </div>
+</body>
+</html>
