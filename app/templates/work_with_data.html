@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"></script>
+<script src="https://jsuites.net/v4/jsuites.js"></script>
+<link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" />
+<link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+
 <head>
     <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>Данные о концентрации веществ</title>
@@ -17,21 +23,107 @@
             {{ table|safe }}
         {% endfor %}
     </div><br>
+    <div id="spreadsheet1"></div><br>
         <form method="POST">
             <table>
-                <tbody>
-                    <tr><td>Наименование концентрата:</td><td>{{form.field_concentrat_title}}</td><td>Месяц:{{form.field_month}}</td></tr>
-                    <tr><td>Железо:</td><td>{{form.field_ferum}}</td><td>{{form.btn_save}}</td></tr>
-                    <tr><td>Кремний:</td><td>{{form.field_cremnium}}</td><td></td></tr>
-                    <tr><td>Алюминий:</td><td>{{form.field_aluminium}}</td><td>{{form.btn_show_statistic}}</td></tr>
-                    <tr><td>Кальций:</td><td>{{form.field_calcium}}</td></tr>
-                    <tr><td>Сера:</td><td>{{form.field_sera}}</td></tr>
-                </tbody>
-            </table><br>
-            <div>{{form.btn_clipboard}}</div><br>
-        </form>
+                <tr><td><div id="spreadsheet2"></div></td><td></td></tr>
+                <tr><td>{{form.field_month}}</td><td></td></tr>
+                <tr><td><input type="button" onclick="SendSaveRequest()" value="Сохранить"></td><td>{{form.btn_show_statistic}}</td></tr>
+            </table>
 
+        </form>
+        <input type="hidden" id="hurl" value="{{url_to_redirect}}">
+        <input type="hidden" id="usr" value="{{user_name}}">
         </div>
+
+        <script>
+
+            var data2 = [
+                            ['Наименование концентрата', ''],
+                            ['Железо', '0'],
+                            ['Кремний', '0'],
+                            ['Алюминий', '0'],
+                            ['Кальций', '0'],
+                            ['Сера', '0'],
+                        ];
+
+            var table2 = jspreadsheet(document.getElementById('spreadsheet2'), {
+                data:data2,
+                columnSorting:false,
+                columns: [
+                            {
+                                type: 'text',
+                                title: 'Параметр',
+                                width: '250',
+                            },
+                            {
+                                type: 'number',
+                                title:'Значение',
+                                width:'200'
+                            },
+                        ],
+
+
+            updateTable:function(instance, cell, col, row, val, label, cellName) {
+                // Number formating
+                if (col == 3) {
+                                    // Get text
+                                    txt = cell.innerText;
+                                    // Format text
+                                    txt = numeral(txt).format('0,0.00');
+                                    // Update cell value
+                                    cell.innerHTML = '$ ' + txt;
+                                }
+
+                    // Total row
+                    if (row == 9) {
+                        if (col < 3) {
+                                        cell.innerHTML = '';
+                                    }
+
+                        if (col == 2) {
+                                        cell.innerHTML = 'Total';
+                                        cell.style.fontWeight = 'bold';
+                                    }
+
+                        cell.className = '';
+                        cell.style.backgroundColor = '#f46e42';
+                        cell.style.color = '#ffffff';
+                    }
+                }
+        });
+
+        function SendSaveRequest()
+            {
+                table_values = table2.getData();
+                url_to_redirect = document.getElementById('hurl').value;
+                month = document.getElementById('month_title').value;
+
+                 concentrate_title = String(table_values[0][1]);
+                 ferum = String(table_values[1][1]);
+                 cremnium = String(table_values[2][1]);
+                 aluminium = String(table_values[3][1]);
+                 calcium = String(table_values[4][1]);
+                 sera = String(table_values[5][1]);
+
+                 args = '{"concentrat_title":' + String.fromCharCode(34) + concentrate_title + String.fromCharCode(34) + ',' +
+                        '"month":' + String.fromCharCode(34) + month + String.fromCharCode(34) + ',' +
+                        '"fer":' + String.fromCharCode(34) + ferum + String.fromCharCode(34) + ',' +
+                        '"crmn":' + String.fromCharCode(34) + cremnium + String.fromCharCode(34) + ',' +
+                        '"alum":' + String.fromCharCode(34) + aluminium + String.fromCharCode(34) + ',' +
+                        '"clm":' + String.fromCharCode(34) + calcium + String.fromCharCode(34) + ',' +
+                        '"sr":' + String.fromCharCode(34) + sera + String.fromCharCode(34) + '}'
+
+                 resp = httpPostAsync(url_to_redirect, "POST", args);
+            }
+
+        function httpPostAsync(theUrl, method, args)
+        {
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open(method, theUrl, true); // true for asynchronous
+            xmlHttp.send(args);
+        }
+        </script>
         <style  type="text/css">
             .box {
                 position: relative;

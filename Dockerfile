@@ -8,8 +8,6 @@ COPY . /
 
 RUN pip install cryptography
 RUN pip install -r requirements.txt
-RUN apt-get update && \
-    apt-get install -y xclip
 RUN pip install waitress
 
 EXPOSE 3002
