@@ -23,20 +23,20 @@
             {{ table|safe }}
         {% endfor %}
     </div><br>
-    <div id="spreadsheet1"></div><br>
         <form method="POST">
             <table>
                 <tr><td><div id="spreadsheet2"></div></td><td></td></tr>
-                <tr><td>{{form.field_month}}</td><td></td></tr>
-                <tr><td><input type="button" onclick="SendSaveRequest()" value="Сохранить"></td><td>{{form.btn_show_statistic}}</td></tr>
+                <tr><td></td><td>{{form.field_month}}</td></tr>
+                <tr><td></td><td><input type="button" onclick="SendSaveRequest()" value="Сохранить"></td></tr>>
+                <tr><td></td><td>{{form.btn_show_statistic}}</td></tr>
             </table>
 
         </form>
         <input type="hidden" id="hurl" value="{{url_to_redirect}}">
-        <input type="hidden" id="usr" value="{{user_name}}">
+        <input type="hidden" id="usrnm" value="{{usr}}">
         </div>
 
-        <script>
+        <script id="sr" json_df="{{json_df_value_str}}">
 
             var data2 = [
                             ['Наименование концентрата', ''],
@@ -62,35 +62,6 @@
                                 width:'200'
                             },
                         ],
-
-
-            updateTable:function(instance, cell, col, row, val, label, cellName) {
-                // Number formating
-                if (col == 3) {
-                                    // Get text
-                                    txt = cell.innerText;
-                                    // Format text
-                                    txt = numeral(txt).format('0,0.00');
-                                    // Update cell value
-                                    cell.innerHTML = '$ ' + txt;
-                                }
-
-                    // Total row
-                    if (row == 9) {
-                        if (col < 3) {
-                                        cell.innerHTML = '';
-                                    }
-
-                        if (col == 2) {
-                                        cell.innerHTML = 'Total';
-                                        cell.style.fontWeight = 'bold';
-                                    }
-
-                        cell.className = '';
-                        cell.style.backgroundColor = '#f46e42';
-                        cell.style.color = '#ffffff';
-                    }
-                }
         });
 
         function SendSaveRequest()
@@ -115,6 +86,11 @@
                         '"sr":' + String.fromCharCode(34) + sera + String.fromCharCode(34) + '}'
 
                  resp = httpPostAsync(url_to_redirect, "POST", args);
+
+                 setTimeout(function () {
+                        window.location.reload();
+                }, 500);
+
             }
 
         function httpPostAsync(theUrl, method, args)
@@ -123,6 +99,8 @@
             xmlHttp.open(method, theUrl, true); // true for asynchronous
             xmlHttp.send(args);
         }
+
+
         </script>
         <style  type="text/css">
             .box {
