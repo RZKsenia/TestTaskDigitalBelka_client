@@ -169,7 +169,8 @@ def display_all_data():
                     tables - таблицы в виде страницы HTML, полученная из Dataframe:                     
                     """
                     headers = ['mean', 'min', 'max']*5
-                    df_new = df.rename(columns={
+                    df_new = df.rename(
+                        columns={
                         "('Железо', 'mean')": "mean",
                         "('Железо', 'amin')": "min",
                         "('Железо', 'amax')": "max",
@@ -191,8 +192,7 @@ def display_all_data():
                                            back_page=url_for('display_all_data') + '?user_name=' + user_name,
                                            month=month,
                                            tables=[df_new.to_html(classes='data',
-                                                                  table_id='spreadsheet',
-                                                                  index=False)])
+                                                                  table_id='spreadsheet')])
 
             """
             Отображение страницы, построенной на основе шаблона, со всей информацией, введённой
@@ -230,5 +230,5 @@ def prepare_json_df_for_page_template(df):
     return json.loads(df.to_json(orient="values"))
 
 if __name__ == '__main__':
-    # serve(app, listen='*:3002')
+    #serve(app, listen='*:3002')
     app.run(debug=False, host='0.0.0.0')
