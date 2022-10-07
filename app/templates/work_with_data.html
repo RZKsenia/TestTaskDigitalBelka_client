@@ -23,11 +23,12 @@
             {{ table|safe }}
         {% endfor %}
     </div><br>
+    <div><h4>Данные для ввода:</h4></div>
         <form method="POST">
             <table>
                 <tr><td><div id="spreadsheet2"></div></td><td></td></tr>
                 <tr><td></td><td>{{form.field_month}}</td></tr>
-                <tr><td></td><td><input type="button" onclick="SendSaveRequest()" value="Сохранить"></td></tr>>
+                <tr><td></td><td><input type="button" onclick="SendSaveRequest()" value="Сохранить"></td></tr>
                 <tr><td></td><td>{{form.btn_show_statistic}}</td></tr>
             </table>
 
@@ -36,7 +37,9 @@
         <input type="hidden" id="usrnm" value="{{usr}}">
         </div>
 
-        <script id="sr" json_df="{{json_df_value_str}}">
+        <script id="sr">
+
+            jspreadsheet(document.getElementById('spreadsheet'));
 
             var data2 = [
                             ['Наименование концентрата', ''],
@@ -109,6 +112,25 @@
                 height: 300px;
                 overflow: auto;
             }
+
+            .spreadsheet2 {
+                    --jexcel_header_color: #000;
+                    --jexcel_header_color_highlighted: #000;
+                    --jexcel_header_background: #d7ccc8;
+                    --jexcel_header_background_highlighted: #dcdcdc;
+                    --jexcel_content_color: #000;
+                    --jexcel_content_color_highlighted: #000;
+                    --jexcel_content_background: #fff;
+                    --jexcel_content_background_highlighted: rgba(0,0,0,0.05);
+                    --jexcel_menu_background: #fff;
+                    --jexcel_menu_background_highlighted: #ebebeb;
+                    --jexcel_menu_color: #555;
+                    --jexcel_menu_color_highlighted: #555;
+                    --jexcel_menu_box_shadow: 2px 2px 2px 0px rgba(143, 144, 145, 1);
+                    --jexcel_border_color: #8d6e63;
+                    --jexcel_border_color_highlighted: #000;
+                    --active_color: #007aff;
+                }
         </style>
         </body>
         </html>

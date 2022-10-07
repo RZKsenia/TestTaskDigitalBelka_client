@@ -166,12 +166,33 @@ def display_all_data():
                     На страницу передаются через динамические элементы:
                     back_page - ссылка для возврата
                     month - месяц, за который отображается статистика
-                    tables - таблицы в виде страницы HTML, полученная из Dataframe: 
+                    tables - таблицы в виде страницы HTML, полученная из Dataframe:                     
                     """
+                    headers = ['mean', 'min', 'max']*5
+                    df_new = df.rename(columns={
+                        "('Железо', 'mean')": "mean",
+                        "('Железо', 'amin')": "min",
+                        "('Железо', 'amax')": "max",
+                        "('Кремний', 'mean')": "mean",
+                        "('Кремний', 'amin')": "min",
+                        "('Кремний', 'amax')": "max",
+                        "('Алюминий', 'mean')": "mean",
+                        "('Алюминий', 'amin')": "min",
+                        "('Алюминий', 'amax')": "max",
+                        "('Кальций', 'mean')": "mean",
+                        "('Кальций', 'amin')": "min",
+                        "('Кальций', 'amax')": "max",
+                        "('Сера', 'mean')": "mean",
+                        "('Сера', 'amin')": "min",
+                        "('Сера', 'amax')": "max",
+                    })
+
                     return render_template('work_with_statistic.html',
                                            back_page=url_for('display_all_data') + '?user_name=' + user_name,
                                            month=month,
-                                           tables=[df.to_html()])
+                                           tables=[df_new.to_html(classes='data',
+                                                                  table_id='spreadsheet',
+                                                                  index=False)])
 
             """
             Отображение страницы, построенной на основе шаблона, со всей информацией, введённой
@@ -188,9 +209,10 @@ def display_all_data():
                                    user_name=user_name,
                                    form=form_lab,
                                    login_page=url_for('logout'),
-                                   tables=[df.to_html()],
+                                   tables=[df.to_html(classes='data',
+                                                      table_id='spreadsheet',
+                                                      index=False)],
                                    url_to_redirect=url_for_post,
-                                   json_df_value_str=prepare_json_df_for_page_template(df),
                                    usr=user_name)
         else:
             # произошла ошибка - попытка не авторизованного доступа
@@ -208,5 +230,5 @@ def prepare_json_df_for_page_template(df):
     return json.loads(df.to_json(orient="values"))
 
 if __name__ == '__main__':
-    serve(app, listen='*:3002')
-    # app.run(debug=False, host='0.0.0.0')
+    # serve(app, listen='*:3002')
+    app.run(debug=False, host='0.0.0.0')

@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8" http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>Статистические данные о концентрации веществ</title>
+
+    <script src="https://bossanova.uk/jspreadsheet/v4/jexcel.js"></script>
+    <script src="https://jsuites.net/v4/jsuites.js"></script>
+    <link rel="stylesheet" href="https://bossanova.uk/jspreadsheet/v4/jexcel.css" type="text/css" />
+    <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
+
 </head>
 <body>
 <div>
 <h3>Статистические данные за {{month}} месяц</h3>
 
     <div class="box">
-    {% for table in tables %}
+        {% for table in tables %}
             {{ table|safe }}
         {% endfor %}
     </div><br>
@@ -23,6 +29,33 @@
                 overflow: auto;
             }
         </style>
-
+<script>
+        jspreadsheet(document.getElementById('spreadsheet'),
+        {
+            nestedHeaders:
+            [[
+                 {
+                    title: 'Железо',
+                    colspan: '3',
+                 },
+                 {
+                    title: 'Кремний',
+                    colspan: '3',
+                 },
+                 {
+                    title: ' Алюминий',
+                    colspan: '3'
+                 },
+                 {
+                    title: ' Кальций',
+                    colspan: '3'
+                 },
+                 {
+                    title: ' Сера',
+                    colspan: '3'
+                 }
+            ],]
+        });
+</script>
 </body>
 </html>
